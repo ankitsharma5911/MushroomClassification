@@ -1,0 +1,19 @@
+[ 2024-09-27 21:05:48,410 ] 97 werkzeug - WARNING -  * Debugger is active!
+[ 2024-09-27 21:05:48,426 ] 97 werkzeug - INFO -  * Debugger PIN: 107-469-721
+[ 2024-09-27 21:05:50,125 ] 97 werkzeug - INFO - 127.0.0.1 - - [27/Sep/2024 21:05:50] "GET / HTTP/1.1" 200 -
+[ 2024-09-27 21:05:50,150 ] 97 werkzeug - INFO - 127.0.0.1 - - [27/Sep/2024 21:05:50] "[33mGET /style/style.css HTTP/1.1[0m" 404 -
+[ 2024-09-27 21:05:56,158 ] 106 root - INFO - Dataframe Gathered
+[ 2024-09-27 21:05:56,158 ] 107 root - INFO -   cap-shape cap-surface cap-color bruises odor gill-attachment gill-spacing  ... veil-type veil-color ring-number ring-type spore-print-color population habitat
+0         x           s         n       t    p               f            c  ...         p          w           o         p                 k          s       u
+
+[1 rows x 22 columns]
+[ 2024-09-27 21:05:56,444 ] 97 werkzeug - INFO - 127.0.0.1 - - [27/Sep/2024 21:05:56] "POST /predict HTTP/1.1" 200 -
+[ 2024-09-27 21:05:56,469 ] 97 werkzeug - INFO - 127.0.0.1 - - [27/Sep/2024 21:05:56] "[33mGET /style/style.css HTTP/1.1[0m" 404 -
+[ 2024-09-27 21:07:17,997 ] 106 root - INFO - Dataframe Gathered
+[ 2024-09-27 21:07:17,998 ] 107 root - INFO -   cap-shape cap-surface cap-color bruises odor gill-attachment gill-spacing  ... veil-type veil-color ring-number ring-type spore-print-color population habitat
+0         x           s         n       t    p               f            c  ...         p          w           o         p                 k          s       u
+
+[1 rows x 22 columns]
+[ 2024-09-27 21:07:18,054 ] 97 werkzeug - INFO - 127.0.0.1 - - [27/Sep/2024 21:07:18] "POST /predict HTTP/1.1" 200 -
+[ 2024-09-27 21:07:18,073 ] 97 werkzeug - INFO - 127.0.0.1 - - [27/Sep/2024 21:07:18] "[33mGET /style/style.css HTTP/1.1[0m" 404 -
+[ 2024-09-27 21:11:13,687 ] 97 werkzeug - INFO -  * Detected change in 'd:\\pwskills\\projects\\mashroomClassification\\application.py', reloading

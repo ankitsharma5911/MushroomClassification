@@ -1,0 +1,22 @@
+[ 2024-09-27 15:33:29,035 ] 26 root - INFO - Data ingestion process start
+[ 2024-09-27 15:33:29,066 ] 30 root - INFO - Dataset read as pandas Dataframe
+[ 2024-09-27 15:33:29,066 ] 34 root - INFO - Train Test split
+[ 2024-09-27 15:33:29,129 ] 42 root - INFO - Ingestion of data is completed
+[ 2024-09-27 15:33:29,223 ] 50 root - INFO - Read train and test data completed
+[ 2024-09-27 15:33:29,238 ] 51 root - INFO - Train Dataframe Head : 
+  class cap-shape cap-surface cap-color bruises odor gill-attachment gill-spacing gill-size gill-color stalk-shape stalk-root stalk-surface-above-ring stalk-surface-below-ring stalk-color-above-ring stalk-color-below-ring veil-type veil-color ring-number ring-type spore-print-color population habitat
+0     p         f           s         e       f    f               f            c         n          b           t          ?                        k                        k                      p                      w         p          w           o         e                 w          v       l
+1     e         x           y         g       t    n               f            c         b          p           t          b                        s                        s                      g                      p         p          w           o         p                 n          v       d
+2     e         x           y         g       t    n               f            c         b          p           t          b                        s                        s                      g                      w         p          w           o         p                 k          y       d
+3     p         f           y         y       f    f               f            c         b          h           e          b                        k                        k                      b                      p         p          w           o         l                 h          y       d
+4     p         f           s         n       f    y               f            c         n          b           t          ?                        s                        s                      w                      w         p          w           o         e                 w          v       l
+[ 2024-09-27 15:33:29,270 ] 52 root - INFO - Test Dataframe Head  : 
+  class cap-shape cap-surface cap-color bruises odor gill-attachment gill-spacing gill-size gill-color stalk-shape stalk-root stalk-surface-above-ring stalk-surface-below-ring stalk-color-above-ring stalk-color-below-ring veil-type veil-color ring-number ring-type spore-print-color population habitat
+0     e         f           s         w       f    n               f            w         b          h           t          e                        f                        f                      w                      w         p          w           o         e                 k          a       g
+1     p         x           f         p       f    c               f            w         n          u           e          b                        s                        s                      w                      w         p          w           o         p                 n          v       d
+2     p         x           s         w       f    c               f            w         n          g           e          b                        s                        s                      w                      w         p          w           o         p                 n          v       d
+3     p         k           s         n       f    f               f            c         n          b           t          ?                        k                        k                      p                      w         p          w           o         e                 w          v       l
+4     e         x           y         y       t    a               f            c         b          n           e          r                        s                        y                      w                      w         p          w           o         p                 k          y       p
+[ 2024-09-27 15:33:29,270 ] 54 root - INFO - Obtaining preprocessing object
+[ 2024-09-27 15:33:29,270 ] 28 root - INFO - data transformation start.
+[ 2024-09-27 15:33:29,270 ] 96 root - INFO - Exception occured in the initiate_datatransformation

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <style>
+        body{
+            background-color: aquamarine;
+        }
+        .container {
+            margin: 100px;
+            border: #45a049;
+            border-width: 10px;
+            border-radius: 25%;
+            box-sizing: border-box;
+            border: darkviolet;
+            background-color: aquamarine;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border-radius: 10%;
+        }
+        input[type="submit"] {
+            width: auto;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+    
+    <title>Form Submission</title>
+</head>
+<body>
+
+    <div class="container">
+    <form action="{{url_for('predict_datapoint')}}" method="POST">
+        
+        <!-- <div class="form-group">  
+            <label for="hours_per_week">hours per week :</label>
+            <input type="text" id="hours_per_week" name="hours_per_week" placeholder="Enter hours per week">
+        </div> -->
+
+        <div class="form-group">
+            <label for="cap_shape">cap shape:</label>
+            <select id="cap_shape" name="cap_shape">
+                <option value="x">x</option>
+                <option value="b">b</option>
+                <option value="s">s</option>
+                <option value="f">f</option>
+                <option value="k">k</option>
+                <option value="c">c</option>
+            </select>
+        </div>
+
+
+
+        <div class="form-group">
+            <label for="cap_surface"> cap surface:</label>
+                <select id = 'cap_surface' name="cap_surface">
+                    <option value="s">s</option>
+                    <option value="y">y</option>
+                    <option value="f">f</option>
+                    <option value="g">g</option>
+                </select>
+        </div>
+
+        <div class="form-group">
+            <label for="cap_color">cap_color :</label>
+            <select id = 'cap_color' name="cap_color">
+                <option value="n">n</option>
+                <option value="y">y</option>
+                <option value="w">w</option>
+                <option value="g">g</option>
+                <option value="b">b</option>
+                <option value="u">u</option>
+                <option value="c">c</option>
+                <option value="r">r</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="bruises">bruises :</label>
+            <select id = 'bruises' name="bruises">
+                <option value="t">t</option>
+                <option value="f">f</option>
+                <option value="f">f</option>
+            </select>                            
+        </div>
+        
+        <div class="form-group">
+            <label for="odor">odor :</label>
+            <select id="odor" name="odor">
+                <option value="p">p</option>
+                <option value="a">a</option>
+                <option value="l">l</option>
+                <option value="n">n</option>
+                <option value="f">f</option>
+                <option value="c">c</option>
+                <option value="y">y</option>
+                <option value="s">s</option>
+                <option value="m">m</option>
+              </select>          
+        </div>
+        <div class="form-group">
+            <label for="gill_attachment">gill_attachment :</label>
+            <select id="gill_attachment" name="gill_attachment">
+                <option value="f">f</option>
+                <option value="a">a</option>
+              </select>          
+        </div>
+
+        <div class="form-group">
+            <label for="gill_spacing">gill_spacing :</label>
+            <select id="gill_spacing" name="gill_spacing">
+                <option value="c">c</option>
+                <option value="w">w</option>
+              </select>
+                        
+        </div>
+        <div class="form-group">
+            <label for="gill_size">gill_size :</label>
+            <select id="gill_size" name="gill_size">
+                <option value="n">n</option>
+                <option value="b">b</option>
+              </select>
+                        
+        </div>
+        <div class="form-group">
+            <label for="gill_color">gill_color :</label>
+            <select id="gill_color" name="gill_color">
+                <option value="k">k</option>
+                <option value="n">n</option>
+                <option value="g">g</option>
+                <option value="p">p</option>
+                <option value="w">w</option>
+                <option value="h">h</option>
+                <option value="u">u</option>
+                <option value="e">e</option>
+                <option value="b">b</option>
+                <option value="r">r</option>
+                <option value="y">y</option>
+                <option value="o">o</option>
+              </select>
+                        
+        </div>
+        <div class="form-group">
+            <label for="stalk_shape">stalk_shape :</label>
+            <select id="stalk_shape" name="stalk_shape">
+                <option value="e">e</option>
+                <option value="t">t</option>
+              </select>
+                        
+        </div>
+        <div class="form-group">
+            <label for="stalk_root">stalk_root :</label>
+            <select id="stalk_root" name="stalk_root">
+                <option value="e">e</option>
+                <option value="c">c</option>
+                <option value="b">b</option>
+                <option value="r">r</option>
+              </select>
+                        
+        </div>
+        <div class="form-group">
+            <label for="stalk_surface_above_ring">stalk_surface_above_ring :</label>
+            <select id="stalk_surface_above_ring" name="stalk_surface_above_ring">
+                <option value="s">s</option>
+                <option value="f">f</option>
+                <option value="k">k</option>
+                <option value="y">y</option>
+              </select>
+                        
+        </div>
+        <div class="form-group">
+            <label for="stalk_surface_below_ring">stalk_surface_below_ring :</label>
+            <select id="stalk_surface_below_ring" name="stalk_surface_below_ring">
+                <option value="s">s</option>
+                <option value="f">f</option>
+                <option value="k">k</option>
+                <option value="y">y</option>
+              </select>
+                        
+        </div>
+        <div class="form-group">
+            <label for="stalk_color_above_ring">stalk_color_above_ring :</label>
+            <select id="stalk_color_above_ring" name="stalk_color_above_ring">
+                <option value="e">e</option>
+                <option value="c">c</option>
+                <option value="w">w</option>
+                <option value="g">g</option>
+                <option value="p">p</option>
+                <option value="n">n</option>
+                <option value="b">b</option>
+                <option value="o">o</option>
+                <option value="y">y</option>
+              </select>
+                        
+        </div>
+        <div class="form-group">
+            <label for="stalk_color_below_ring">stalk_color_below_ring :</label>
+            <select id="stalk_color_below_ring" name="stalk_color_below_ring">
+                <option value="e">e</option>
+                <option value="c">c</option>
+                <option value="w">w</option>
+                <option value="g">g</option>
+                <option value="p">p</option>
+                <option value="n">n</option>
+                <option value="b">b</option>
+                <option value="o">o</option>
+                <option value="y">y</option>
+              </select>
+                        
+        </div>
+        <div class="form-group">
+            <label for="veil_type">veil_type :</label>
+            <select id="veil_type" name="veil_type">
+                <option value="p">p</option>
+              </select>
+                        
+        </div>
+        <div class="form-group">
+            <label for="veil_color">veil_color :</label>
+            <select id="veil_color" name="veil_color">
+                <option value="w">w</option>
+                <option value="n">n</option>
+                <option value="o">o</option>
+                <option value="y">y</option>
+              </select>
+                        
+        </div>
+        <div class="form-group">
+            <label for="ring_number">ring_number :</label>
+            <select id="ring_number" name="ring_number">
+                <option value="o">o</option>
+                <option value="t">t</option>
+                <option value="n">n</option>
+              </select>
+                        
+        </div>
+        <div class="form-group">
+            <label for="ring_type">ring_type :</label>
+            <select id="ring_type" name="ring_type">
+                <option value="p">p</option>
+                <option value="e">e</option>
+                <option value="l">l</option>
+                <option value="f">f</option>
+                <option value="n">n</option>
+              </select>
+                        
+        </div>
+        <div class="form-group">
+            <label for="spore_print_color">spore_print_color :</label>
+            <select id="spore_print_color" name="spore_print_color">
+                <option value="k">k</option>
+                <option value="n">n</option>
+                <option value="u">u</option>
+                <option value="h">h</option>
+                <option value="w">w</option>
+                <option value="r">r</option>
+                <option value="o">o</option>
+                <option value="y">y</option>
+                <option value="b">b</option>
+              </select>
+                        
+        </div>
+        <div class="form-group">
+            <label for="population">population :</label>
+            <select id="population" name="population">
+                <option value="s">s</option>
+                <option value="n">n</option>
+                <option value="a">a</option>
+                <option value="v">v</option>
+                <option value="c">c</option>
+                <option value="y">y</option>
+              </select>
+                        
+        </div>
+        <div class="form-group">
+            <label for="habitat">habitat :</label>
+            <select id="habitat" name="habitat">
+                <option value="u">u</option>
+                <option value="g">g</option>
+                <option value="m">m</option>
+                <option value="d">d</option>
+                <option value="p">p</option>
+                <option value="w">w</option>
+                <option value="l">l</option>
+              </select>
+                        
+        </div>
+
+        <div style="clear:both;"></div>
+        <input type="submit" value="Submit">
+    </form>
+
+    <div>
+        {{final_result}}
+    </div>
+    </div>
+
+</body>
+</html>

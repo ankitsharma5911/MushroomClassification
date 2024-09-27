@@ -3,6 +3,7 @@ from typing import List
 
 HYPEN_E_DOT = '-e.'
 
+
 def get_requirements(path:str)->List[str]:
     try:
         requirements = []

@@ -6,5 +6,8 @@ flask
 seaborn
 matplotlib
 gunicorn
+mlflow
+dagshub
+python-dotenv
 
--e .
+# -e .

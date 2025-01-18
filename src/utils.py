@@ -8,6 +8,11 @@ from src.logger import logging
 
 from sklearn.metrics import accuracy_score
 
+MLFLOW_TRACKING_USERNAME = "ankitsharma5911"
+MLFLOW_TRACKING_URI = "https://github.com/ankitsharma5911/MushroomClassification.git"
+MLFLOW_TRACKING_PASSWORD = "bead5509178453e6df868b3bf7f29e108a09e028"
+
+
 def save_object(file_path, obj):
     try:
         dir_path = os.path.dirname(file_path)

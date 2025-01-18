@@ -1,3 +1,0 @@
-[ 2024-09-27 14:27:22,195 ] 160 numexpr.utils - INFO - NumExpr defaulting to 4 threads.
-[ 2024-09-27 14:27:27,325 ] 24 root - INFO - Data ingestion process start.
-[ 2024-09-27 14:27:27,341 ] 49 root - INFO - error occured in data ingestion

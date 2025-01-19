@@ -36,6 +36,36 @@ class ModelTrainer:
     def __init__(self):
         self.model_trainer_config = ModelTrainerConfig()
 
+    def register_model(self, best_model, model_name,X_train,y_train,best_model_score,precision_score,recall_score,f1_score):
+        try:
+            mlflow.set_registry_uri(MLFLOW_TRACKING_URI)
+            tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
+            
+            signature = infer_signature(X_train,y_train)
+            
+            
+            with mlflow.start_run():
+                mlflow.log_param("model", model_name)
+                mlflow.log_metric("Accuracy",best_model_score)
+                mlflow.log_metric("precision",precision_score)
+                mlflow.log_metric("recall_score",recall_score)
+                mlflow.log_metric("f1_score",f1_score)
+                
+                mlflow.set_experiment("MushroomClassification")
+                
+                mlflow.sklearn.log_model(
+                                    sk_model=best_model,
+                                    artifact_path="model",
+                                    signature=signature,
+                                    registered_model_name="best model")
+                # Model registry does not work with file store
+                if tracking_url_type_store != "file":
+                    mlflow.sklearn.log_model(best_model, "model")
+                else:
+                    mlflow.sklearn.log_model(best_model, "model")
+        except Exception as e:
+            CustomException(e,sys)
+    
     def initate_model_training(self,train_array,test_array):
         try:
             logging.info('Splitting Dependent and Independent variables from train and test data')
@@ -58,6 +88,7 @@ class ModelTrainer:
             }
 
             model_report:dict=evaluate_model(X_train,y_train,X_test,y_test,models)
+            
             print(model_report)
             print('\n====================================================================================\n')
             logging.info(f'Model Report : {model_report}')
@@ -68,44 +99,19 @@ class ModelTrainer:
                 list(model_report.values()).index(best_model_score)
             ]
             best_model = models[best_model_name]
-            y_pred = best_model.fit(X_train,y_train)
-            precision_score = precision_score(y_test,y_pred)
-            recall_score = recall_score(y_test,y_pred)
-            f1_score = f1_score(y_test,y_pred)
+            
+            print(f'Best Model Found , Model Name : {best_model_name} , Accuracy Score : {best_model_score}')
+            y_pred = best_model.predict(X_test)
+            precision = precision_score(y_test,y_pred)
+            recall = recall_score(y_test,y_pred)
+            f1 = f1_score(y_test,y_pred)
+            self.register_model(best_model,best_model_name,X_train,y_train,best_model_score,precision,recall,f1)
             
             logging.log(f'Precision Score : {precision_score} , Recall Score : {recall_score} , F1 Score : {f1_score}')
             
             print(f'Precision Score : {precision_score} , Recall Score : {recall_score} , F1 Score : {f1_score}')
             
-            mlflow.set_registry_uri(MLFLOW_TRACKING_URI)
-            tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
             
-            signature = infer_signature(X_train,y_train)
-            
-            with mlflow.start_run():
-                # mlflow.log_param("model", "Decision Tree Regressor")
-                mlflow.log_metric("Accuracy",best_model_score)
-                mlflow.log_metric("precision",precision_score)
-                mlflow.log_metric("recall_score",recall_score)
-                mlflow.log_metric("f1_score",f1_score)
-                
-                
-                mlflow.set_experiment("MushroomClassification")
-                
-                mlflow.sklearn.log_model(
-                                    sk_model=best_model,
-                                    artifact_path="model",
-                                    signature=signature,
-                                    registered_model_name="register model")
-                # Model registry does not work with file store
-                if tracking_url_type_store != "file":
-
-                    
-                    mlflow.sklearn.log_model(best_model, "model")
-                else:
-                    mlflow.sklearn.log_model(best_model, "model")
-                
-                
             save_object(
                  file_path=self.model_trainer_config.trained_model_file_path,
                  obj=best_model
@@ -114,10 +120,11 @@ class ModelTrainer:
 
             print('\n====================================================================================\n')
             
-            logging.info(f'Best Model Found , Model Name : {best_model_name} , accuracy Score : {best_model_score}')
+            logging.info(f'Best Model Found , Model Name : {best_model_name} , Accuracy Score : {best_model_score}')
             
             print('Model Training Completed')
             logging.info('Model Training Completed')
             
+            return best_model_name
         except Exception as e:
             CustomException(e,sys)

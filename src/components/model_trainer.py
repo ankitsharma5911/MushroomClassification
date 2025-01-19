@@ -106,25 +106,17 @@ class ModelTrainer:
             recall = recall_score(y_test,y_pred)
             f1 = f1_score(y_test,y_pred)
             self.register_model(best_model,best_model_name,X_train,y_train,best_model_score,precision,recall,f1)
-            
             logging.log(f'Precision Score : {precision_score} , Recall Score : {recall_score} , F1 Score : {f1_score}')
-            
             print(f'Precision Score : {precision_score} , Recall Score : {recall_score} , F1 Score : {f1_score}')
-            
-            
             save_object(
                  file_path=self.model_trainer_config.trained_model_file_path,
                  obj=best_model
             )
             print(f'Best Model Found , Model Name : {best_model_name} , Accuracy Score : {best_model_score}')
-
             print('\n====================================================================================\n')
-            
             logging.info(f'Best Model Found , Model Name : {best_model_name} , Accuracy Score : {best_model_score}')
-            
             print('Model Training Completed')
             logging.info('Model Training Completed')
-            
             return best_model_name
         except Exception as e:
             CustomException(e,sys)

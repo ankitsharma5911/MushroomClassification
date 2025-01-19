@@ -26,46 +26,122 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-
 dagshub.init(repo_owner='ankitsharma5911', repo_name='MushroomClassification', mlflow=True)
+
 @dataclass
 class ModelTrainerConfig:
     trained_model_file_path = os.path.join('artifacts','model.pkl')
 
+@dataclass 
+class ModelPreformance:
+    accuracy: float = ""
+    precision: float = ""
+    recall: float = ""
+    f1: float  = ""
+    
+    
 class ModelTrainer:
-    def __init__(self):
+    def __init__(self)->None:
         self.model_trainer_config = ModelTrainerConfig()
-
-    def register_model(self, best_model, model_name,X_train,y_train,best_model_score,precision_score,recall_score,f1_score):
+        self.performance_matrics = ModelPreformance()
+    def register_model(self,model,X_train,y_train,modelperformance:ModelPreformance):
         try:
             mlflow.set_registry_uri(MLFLOW_TRACKING_URI)
             tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
             
             signature = infer_signature(X_train,y_train)
+            print(modelperformance.accuracy)
             
             
             with mlflow.start_run():
-                mlflow.log_param("model", model_name)
-                mlflow.log_metric("Accuracy",best_model_score)
-                mlflow.log_metric("precision",precision_score)
-                mlflow.log_metric("recall_score",recall_score)
-                mlflow.log_metric("f1_score",f1_score)
+                mlflow.log_metric("Accuracy",modelperformance.accuracy)
+                mlflow.log_metric("precision",modelperformance.precision)
+                mlflow.log_metric("recall_score",modelperformance.recall)
+                mlflow.log_metric("f1_score",modelperformance.f1)
                 
-                mlflow.set_experiment("MushroomClassification")
+                # mlflow.set_experiment("MushroomClassification")
                 
                 mlflow.sklearn.log_model(
-                                    sk_model=best_model,
-                                    artifact_path="model",
+                                    sk_model=model,
+                                    artifact_path="artifacts",
                                     signature=signature,
                                     registered_model_name="best model")
-                # Model registry does not work with file store
+            
                 if tracking_url_type_store != "file":
-                    mlflow.sklearn.log_model(best_model, "model")
+                    mlflow.sklearn.log_model(model, "artifacts",registered_model_name="best model")
                 else:
-                    mlflow.sklearn.log_model(best_model, "model")
+                    mlflow.sklearn.log_model(model, "artifacts")
         except Exception as e:
-            CustomException(e,sys)
+            logging.error(f"An error occurred in registering model: {e}")
+            CustomException(e,sys) 
+ 
+    def train_model(self,X_train,y_train,X_test,y_test):
+        try:
+            logging.info('Model training started')
+            models = {
+                'LogisticRegression': LogisticRegression(),
+                'DecisionTreeClassifier': DecisionTreeClassifier(),
+                'GaussianNB': GaussianNB(),
+                'SVC': SVC(),
+                'KNeighborsClassifier': KNeighborsClassifier(),
+                'RandomForestClassifier': RandomForestClassifier(),
+                'AdaBoostClassifier': AdaBoostClassifier(),
+                'GradientBoostingClassifier': GradientBoostingClassifier()
+            }
+            
+            model_report:dict=evaluate_model(X_train,y_train,X_test,y_test,models)
+            
+            print(model_report)
+            print('\n====================================================================================\n')
+            
+            logging.info(f'Model Report : {model_report}')
+            # To get best model score from dictionary 
+            best_model_score = max(sorted(model_report.values()))
+            best_model_name = list(model_report.keys())[
+                list(model_report.values()).index(best_model_score)
+            ]
+            best_model = models[best_model_name]
+            
+            print(f'Best Model Found , Model Name : {best_model_name} , Accuracy Score : {best_model_score}')
+            
+            
+            
+            return best_model
+          
+        except Exception as e:
+            logging.error(f"An error occurred in training model: {e}")
+            raise CustomException(e,sys)
+                
+    def save_model(self,model):
+        try:
+            save_object(
+                file_path=self.model_trainer_config.trained_model_file_path,
+                obj=model
+            )
+            logging.info('Model saved successfully')
+        except Exception as e:
+            logging.error(f"An error occurred in saving model: {e}")
+            raise CustomException(e,sys)
     
+    def evaluate_model(self,X_test,y_test,model,model_performance:ModelPreformance):
+        try:
+            y_pred = model.predict(X_test)
+            
+            # model_performance = ModelPreformance()
+            
+            
+            model_performance.accuracy = accuracy_score(y_test,y_pred)
+            model_performance.precision = precision_score(y_test,y_pred)
+            model_performance.recall = recall_score(y_test,y_pred)
+            model_performance.f1 = recall_score(y_test,y_pred)
+        
+            return model_performance
+        
+        
+        except Exception as e:
+            logging.error(f"An error occurred in evaluating model: {e}")
+            raise CustomException(e,sys)
+        
     def initate_model_training(self,train_array,test_array):
         try:
             logging.info('Splitting Dependent and Independent variables from train and test data')
@@ -76,47 +152,31 @@ class ModelTrainer:
                 test_array[:,:-1],
                 test_array[:,-1]
             )
-            models = {    
-                'Logistic Regression' : LogisticRegression(),
-                'Decision Tree Regressor' : DecisionTreeClassifier(),
-                "Naib Bias" : GaussianNB(),
-                'SVC' : SVC(),
-                'KNN': KNeighborsClassifier(),
-                'Random Forest Classifier' : RandomForestClassifier(),
-                'Adaboosting' : AdaBoostClassifier(),
-                'GradientBoosting' : GradientBoostingClassifier()
-            }
 
-            model_report:dict=evaluate_model(X_train,y_train,X_test,y_test,models)
-            
-            print(model_report)
-            print('\n====================================================================================\n')
-            logging.info(f'Model Report : {model_report}')
-
-            # To get best model score from dictionary 
-            best_model_score = max(sorted(model_report.values()))
-            best_model_name = list(model_report.keys())[
-                list(model_report.values()).index(best_model_score)
-            ]
-            best_model = models[best_model_name]
-            
-            print(f'Best Model Found , Model Name : {best_model_name} , Accuracy Score : {best_model_score}')
-            y_pred = best_model.predict(X_test)
-            precision = precision_score(y_test,y_pred)
-            recall = recall_score(y_test,y_pred)
-            f1 = f1_score(y_test,y_pred)
-            self.register_model(best_model,best_model_name,X_train,y_train,best_model_score,precision,recall,f1)
-            logging.log(f'Precision Score : {precision_score} , Recall Score : {recall_score} , F1 Score : {f1_score}')
-            print(f'Precision Score : {precision_score} , Recall Score : {recall_score} , F1 Score : {f1_score}')
-            save_object(
-                 file_path=self.model_trainer_config.trained_model_file_path,
-                 obj=best_model
-            )
-            print(f'Best Model Found , Model Name : {best_model_name} , Accuracy Score : {best_model_score}')
-            print('\n====================================================================================\n')
-            logging.info(f'Best Model Found , Model Name : {best_model_name} , Accuracy Score : {best_model_score}')
-            print('Model Training Completed')
+            # Train model
+            model=self.train_model(X_train,y_train,X_test,y_test)
             logging.info('Model Training Completed')
-            return best_model_name
+            print('Model Training Completed')
+            
+            # Save model
+            self.save_model(model)
+            logging.info('Model saved successfully')
+            print('Model saved successfully')
+            
+            
+            # Evaluate model
+            matrics:ModelPerformance = self.evaluate_model(X_test,y_test,model,self.performance_matrics)
+            logging.info('Model evaluation completed')
+            print('Model evaluation completed')
+            
+            
+            # Register model
+            self.register_model(model,X_train,y_train,matrics)
+            logging.info('Model registered successfully')
+            print('Model Training Completed')
+            
+            
+            
         except Exception as e:
-            CustomException(e,sys)
+            logging.error(f"An error occurred in model training: {e}")
+            raise CustomException(e,sys)

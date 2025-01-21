@@ -133,7 +133,7 @@ class ModelTrainer:
             model_performance.accuracy = accuracy_score(y_test,y_pred)
             model_performance.precision = precision_score(y_test,y_pred)
             model_performance.recall = recall_score(y_test,y_pred)
-            model_performance.f1 = recall_score(y_test,y_pred)
+            model_performance.f1 = f1_score(y_test,y_pred)
         
             return model_performance
         

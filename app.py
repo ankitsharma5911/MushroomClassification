@@ -9,8 +9,12 @@ app=application
 def home_page():
     return render_template('form.html')
 
-@app.route('/predict',methods=['GET','POST'])
+@app.route('/train',methods=['GET'])  # route to train the pipeline
+def training():
+    os.system("python main.py")
+    return "Training Successful!" 
 
+@app.route('/predict',methods=['GET','POST'])
 def predict_datapoint():
     if request.method=='GET':
         return render_template('form.html')
